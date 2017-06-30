@@ -1,0 +1,6 @@
+# since we're baking asserts into the tasks file, tests here
+# should focus on more complex pass/fail indicators.
+test:
+  script:
+    - if [ -f 'requirements.yml' ]; then yum -y install git && ansible-galaxy install -r requirements.yml; fi
+    - ansible-playbook test.yml --connection=local -vvv

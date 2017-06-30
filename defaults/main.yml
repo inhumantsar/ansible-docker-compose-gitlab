@@ -1,0 +1,49 @@
+---
+# docker-compose info
+# no dashes, underscores, etc. in service_env or service_name. alphanumeric only.
+service_env: 'dev'
+service_name: 'gitlab'
+
+# container configs
+image_tag_gitlab: 'latest'
+image_tag_runner: 'alpine'
+hostname_gitlab: 'localhost'
+hostpath_gitlab_config: '/srv/gitlab/config'
+hostpath_gitlab_logs: '/srv/gitlab/logs'
+hostpath_gitlab_data: '/srv/gitlab/data'
+hostpath_runner_config: '/tmp/gitlab/runner'
+hostport_http: '8080'
+hostport_https: '8443'
+hostport_ssh: '2222'
+
+# only obtainable after gitlab's first launch.
+# this is something of a secret...
+ci_runner_registration_token: 'tbd'
+
+# anything that can go into the gitlab.rb config, can go here:
+gitlab_omnibus_config: |
+  gitlab_rails['gravatar_enabled'] = true
+#   gitlab_rails['time_zone'] = 'Asia/Tokyo'
+#   gitlab_rails['gitlab_ssh_host'] = 'xxx.xxx.xxx.xxx:10022'
+#   gitlab_rails['gitlab_email_from'] = 'gitlab@example.com'
+#   gitlab_rails['gitlab_email_reply_to'] = 'noreply@example.com'
+#   gitlab_rails['smtp_enable'] = true
+#   gitlab_rails['smtp_address'] = "xxx.xxx.xxx.xxx"
+#   gitlab_rails['smtp_port'] = 8025
+#   gitlab_rails['smtp_domain'] = "xxx.xxx.xxx.xxx"
+#   gitlab_rails['smtp_tls'] = false
+#   gitlab_rails['smtp_enable_starttls_auto'] = false
+#   gitlab_rails['ldap_enabled'] = true
+#   gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close thise this block with 'EOS' below
+#     main: # 'main' is the GitLab 'provider ID' of this LDAP server
+#       label: 'LDAP'
+#       host: 'xxx.xxx.xxx.xxx'
+#       port: 389
+#       uid: 'sAMAccountName'
+#       method: 'plain' # "tls" or "ssl" or "plain"
+#       bind_dn: 'hoge@domain.org'
+#       password: 'password'
+#       active_directory: true
+#       allow_username_or_email_login: false
+#       base: 'dc=domain,dc=org'
+#   EOS

@@ -1,0 +1,68 @@
+---
+# tasks file for docker-compose-gitlab
+- debug: msg="Starting tasks from docker-compose-gitlab..."
+
+# vars/main.yml is auto-imported.
+- name: Import env-sensitive overrides
+  include_vars: "vars/{{ service_env }}.yml"
+  when: service_env != "dev"
+
+# easy pre-reqs
+- name: Ensure the docker and docker-compose libs are installed.
+  pip:
+    name: docker
+    version: 2.3.0
+- name: Ensure docker-compose libs are installed
+  pip:
+    name: docker-compose
+
+# do the thing
+- name: Launch services with docker-compose.yml
+  docker_service:
+    project_name: "{{ service_name }}_{{ service_env }}"
+    definition:
+      version: "2"
+      services:
+        gitlab:
+          image: "gitlab/gitlab-ce:{{ image_tag_gitlab }}"
+          restart: always
+          hostname: "{{ hostname_gitlab }}"
+          environment:
+            GITLAB_OMNIBUS_CONFIG: "{{ gitlab_omnibus_config }}"
+          ports:
+            - "{{ hostport_http }}:80"
+            - "{{ hostport_https }}:443"
+            - "{{ hostport_ssh }}:22"       # git interacts ssh by default, this is always a bit of a pain to deal with.
+          volumes:
+            - "{{ hostpath_gitlab_config }}:/etc/gitlab"
+            - "{{ hostpath_gitlab_logs }}:/var/log/gitlab"
+            - "{{ hostpath_gitlab_data }}:/var/opt/gitlab"
+        gitlab_runner:
+          image: "gitlab/gitlab-runner:{{ image_tag_runner }}"
+          restart: always
+          links:
+            - gitlab
+          environment:
+            REGISTER_NON_INTERACTIVE: "true"
+            RUNNER_NAME: gitlab-runner-master
+            CI_SERVER_URL: http://gitlab    # we link with the gitlab container, so that"s it"s name here
+            TAG_LIST: alpine,master
+            RUN_UNTAGGED: "false"
+            RUNNER_EXECUTOR: "docker"
+            DOCKER_IMAGE: "docker:latest"   # this is a special image used by the Docker executor.
+            REGISTRATION_TOKEN: "{{ ci_runner_registration_token }}"   # this comes from http://gitlab/admin/runners and
+                                                              # has to be hardcoded. shouldn"t change often however
+          volumes:
+            - /usr/bin/docker:/usr/bin/docker             # so our scripts can call on docker to do things if we need them to
+            - /var/run/docker.sock:/var/run/docker.sock   # this will allow the runner to spawn new docker-based runners
+            - "{{ hostpath_runner_config }}:/etc/gitlab-runner"
+  register: output
+
+- debug: var=output
+
+# inline unit testing
+- name: Confirm services launched successfully
+  assert:
+    that:
+      - "gitlab.{{ service_name }}{{ service_env }}_gitlab_1.state.running"
+      - "gitlab_runner.{{ service_name }}{{ service_env }}_gitlab_runner_1.state.running"

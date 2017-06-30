@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Continuous Integration with GitLab</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      h3 { line-height: .2em; }
+      h4, h5, h6 { line-height: .5em; }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .right {
+        display: inline-block;
+      }
+      .small {
+        font-size: .5em;
+      }
+      .small img {
+        width: 50%;
+        height: auto;
+      }
+      .img-300 img {
+        width: 27%;
+        height: auto;
+        margin: 0 .8em;
+      }
+      blockquote {
+        background: #f9f9f9;
+        border-left: 10px solid #ccc;
+        margin: 1.5em 10px;
+        padding: 0.5em 10px;
+        quotes: "\201C""\201D""\2018""\2019";
+      }
+      blockquote:before {
+        color: #ccc;
+        content: open-quote;
+        font-size: 4em;
+        line-height: 0.1em;
+        margin-right: 0.25em;
+        vertical-align: -0.4em;
+      }
+      blockquote p {
+        display: inline;
+      }
+      .autoscale img { width: 97%; height: auto; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source"></textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+        sourceUrl: 'demo.md'
+      });
+    </script>
+  </body>
+</html>

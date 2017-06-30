@@ -1,0 +1,6 @@
+hostname_gitlab: 'gitlab.somedomain.ca'
+hostport_http: '80'
+hostport_https: '443'
+hostport_ssh: '22'
+ci_runner_registration_token: 'tbd' # this is something of a secret...
+# gitlab_omnibus_config: | ...
