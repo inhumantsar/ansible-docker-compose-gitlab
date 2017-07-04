@@ -31,17 +31,22 @@
 
 > It’s no longer “apply this handful of THINGS to these hosts”, you say “these hosts are dbservers” or “these hosts are webservers”. In programming, we might call that “encapsulating” how things work. For instance, you can drive a car without knowing how the engine works.
 
+# Best Practices
+* Idempotent as a goal
+* Tests which are atomic and easy
+* Don't hardcode things, parameterize
+* Build in layers. Create specific roles using generic roles
+* Lean on and contribute back to the community
+
 # Publishing publicly
 * forces use of best practices
   * less hard coding (esp passwords and IPs!)
   * automatic publishing requires passing tests
 * probably more efficient to patch or rebuild deficient public work than to create from scratch
-* free unit testing (travis), free integration and e2e testing from users
-* much lower risk of data loss
-
-# Best Practices
-* Idempotent as a goal
-* Easy to write tests
+* free unit testing (travis/gitlab-ci), free integration and e2e testing from users
+* extra redundancy
+* easiest way to share with other teams
+* high discoverability compared to intranets and private code repos
 
 
 ---

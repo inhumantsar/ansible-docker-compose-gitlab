@@ -8,7 +8,7 @@
   when: service_env != "dev"
 
 # easy pre-reqs
-- name: Ensure the docker and docker-compose libs are installed.
+- name: Ensure the docker libs are installed.
   pip:
     name: docker
     version: 2.3.0
