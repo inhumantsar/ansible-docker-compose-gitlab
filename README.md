@@ -24,18 +24,25 @@ This role will dumbly try to install these if not already present. the
   * _*KNOWN ISSUE*_: The `docker` Python library has a bug in v2.4.0 which prevents port mapping in docker-compose.
 
 ### Installation
-EL7 example tested on RHEL and CentOS.
+EL7 example tested on RHEL and CentOS 7.
 
-    yum install -y git gcc python-devel openssl-devel && \
-      pip install ansible
+```bash
+yum install -y git gcc python-devel openssl-devel && \
+  pip install ansible
 
-    echo -e “- src: geerlingguy.docker\n- src: inhumantsar.docker-compose-gitlab” > requirements.txt
-    ansible-galaxy install -r requirements.txt
+echo -e “- src: geerlingguy.docker\n- src: inhumantsar.docker-compose-gitlab” > requirements.txt
+ansible-galaxy install -r requirements.txt
 
-    echo """---
-    > - hosts: localhost
-    >   roles:
-    >     - geerlingguy.docker
-    >     - inhumantsar.docker-compose-gitlab
-    > """ > playbook.yml
-    ansible-playbook playbook.yml
+echo """---
+> - hosts: localhost
+>   roles:
+>     - geerlingguy.docker
+>     - inhumantsar.docker-compose-gitlab
+> """ > playbook.yml
+ansible-playbook playbook.yml
+```
+
+### Decommission
+This will only remove the Docker Compose service and its containers.
+```bash
+ansible-playbook playbook.yml -e service_state=absent```

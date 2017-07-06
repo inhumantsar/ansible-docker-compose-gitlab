@@ -3,6 +3,7 @@
 # no dashes, underscores, etc. in service_env or service_name. alphanumeric only.
 service_env: 'dev'
 service_name: 'gitlab'
+service_state: 'present'
 
 # container configs
 image_tag_gitlab: 'latest'
