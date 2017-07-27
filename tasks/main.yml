@@ -16,6 +16,20 @@
   pip:
     name: docker-compose
 
+- name: create paths for configs and data
+  file:
+    path: {{ item }}
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  with_items:
+    - '{{hostpath_gitlab_config}}'
+    - '{{hostpath_gitlab_logs}}'
+    - '{{hostpath_gitlab_data}}'
+    - '{{hostpath_runner_config}}'
+
+
 - name: write the ci runner config file
   copy:
     dest: "{{ hostpath_runner_config }}/config.toml"
