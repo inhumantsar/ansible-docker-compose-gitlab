@@ -17,12 +17,9 @@ hostport_http: '8080'
 hostport_https: '8443'
 hostport_ssh: '2222'
 
-# only obtainable after gitlab's first launch.
-# this is something of a secret...
-ci_runner_registration_token: 'tbd'
-
 # anything that can go into the gitlab.rb config, can go here:
 gitlab_omnibus_config: |
+  external_url 'GENERATED_EXTERNAL_URL'
   gitlab_rails['gravatar_enabled'] = true
 #   gitlab_rails['time_zone'] = 'Asia/Tokyo'
 #   gitlab_rails['gitlab_ssh_host'] = 'xxx.xxx.xxx.xxx:10022'
@@ -48,3 +45,41 @@ gitlab_omnibus_config: |
 #       allow_username_or_email_login: false
 #       base: 'dc=domain,dc=org'
 #   EOS
+
+# only obtainable after gitlab's first launch. this is something of a secret...
+ci_runner_registration_token: 'tbd'
+ci_runner_config: |
+  concurrent = 20
+#  metrics_server = "PROMETHEUS_URL"
+#  [[runners]]
+#    executor = "docker+machine"
+#    limit = 5
+#    [runners.docker]
+#      image = "williamyeh/ansible:centos7"
+#    [runners.machine]
+#      IdleCount = 1
+#      IdleTime = 240
+#      OffPeakPeriods = [
+#        "* * 0-7,19-23 * * mon-fri *",
+#        "* * * * * sat,sun *"
+#      ]
+#      OffPeakTimezone = "America/Vancouver"
+#      OffPeakIdleCount = 0
+#      OffPeakIdleTime = 45
+#      MaxBuilds = 100
+#      MachineName = "auto-scale-%s"
+#      MachineDriver = "amazonec2"
+#      MachineOptions = [
+#          "amazonec2-access-key=ACCESS_KEY",
+#          "amazonec2-secret-key=SECRET_KEY",
+#          "amazonec2-ami=ami-16b1a077",
+#          "amazonec2-region=us-west-2",
+#          "amazonec2-vpc-id=SOME_ID",
+#          "amazonec2-subnet-id=SOME_ID",
+#          "amazonec2-request-spot-instance=true",
+#          "amazonec2-instance-type=m4.large",
+#          "amazonec2-spot-price=0.03",
+#          "amazonec2-private-address-only=true",
+#          "amazonec2-ssh-user=ubuntu",
+#          "engine-registry-mirror=ARTIFACTORY_URL"
+#      ]

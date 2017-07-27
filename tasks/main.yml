@@ -16,6 +16,14 @@
   pip:
     name: docker-compose
 
+- name: write the ci runner config file
+  copy:
+    dest: "{{ hostpath_runner_config }}/config.toml"
+    content: "{{ ci_runner_config }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
 # do the thing
 - name: Launch services with docker-compose.yml
   docker_service:
@@ -45,14 +53,13 @@
             - gitlab
           environment:
             REGISTER_NON_INTERACTIVE: "true"
-            RUNNER_NAME: gitlab-runner-master
-            CI_SERVER_URL: http://gitlab    # we link with the gitlab container, so that"s it"s name here
-            TAG_LIST: alpine,master
-            RUN_UNTAGGED: "false"
-            RUNNER_EXECUTOR: "docker"
+            RUNNER_NAME: "gitlab-runner-master"
+            CI_SERVER_URL: "http://gitlab"    # we link with the gitlab container, so that"s it"s name here
+            TAG_LIST: "alpine,master"
+            RUN_UNTAGGED: "true"
             DOCKER_IMAGE: "docker:latest"   # this is a special image used by the Docker executor.
             REGISTRATION_TOKEN: "{{ ci_runner_registration_token }}"   # this comes from http://gitlab/admin/runners and
-                                                              # has to be hardcoded. shouldn"t change often however
+                                                                       # has to be hardcoded. shouldn"t change often however
           volumes:
             - /usr/bin/docker:/usr/bin/docker             # so our scripts can call on docker to do things if we need them to
             - /var/run/docker.sock:/var/run/docker.sock   # this will allow the runner to spawn new docker-based runners
