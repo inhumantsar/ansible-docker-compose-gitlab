@@ -8,13 +8,11 @@
   when: service_env != "dev"
 
 # easy pre-reqs
-- name: Ensure the docker libs are installed.
+- name: Ensure the docker and docker-compose python libs are installed.
   pip:
-    name: docker
-    version: 2.3.0
-- name: Ensure docker-compose libs are installed
-  pip:
-    name: docker-compose
+    name:
+      - docker
+      - docker-compose
 
 - name: create paths for configs and data
   file:
@@ -50,6 +48,8 @@
           image: "gitlab/gitlab-ce:{{ image_tag_gitlab }}"
           restart: always
           hostname: "{{ hostname_gitlab }}"
+          links:
+            - gitlab_smtp
           environment:
             GITLAB_OMNIBUS_CONFIG: "{{ gitlab_omnibus_config }}"
           ports:
@@ -71,13 +71,18 @@
             CI_SERVER_URL: "http://gitlab"    # we link with the gitlab container, so that"s it"s name here
             TAG_LIST: "alpine,master"
             RUN_UNTAGGED: "true"
-            DOCKER_IMAGE: "docker:latest"   # this is a special image used by the Docker executor.
+            DOCKER_IMAGE: "docker:latest"     # this is a special image used by the Docker executor.
             REGISTRATION_TOKEN: "{{ ci_runner_registration_token }}"   # this comes from http://gitlab/admin/runners and
-                                                                       # has to be hardcoded. shouldn"t change often however
           volumes:
             - /usr/bin/docker:/usr/bin/docker             # so our scripts can call on docker to do things if we need them to
             - /var/run/docker.sock:/var/run/docker.sock   # this will allow the runner to spawn new docker-based runners
             - "{{ hostpath_runner_config }}:/etc/gitlab-runner"
+        gitlab_smtp:
+          image: "namshi/smtp"
+          restart: always
+          environment:
+            RELAY_NETWORKS: ":172.0.0.0/8"
+            MAILNAME: "{{ hostname_gitlab }}"
   register: output
 
 - debug: var=output
@@ -88,3 +93,4 @@
     that:
       - "gitlab.{{ service_name }}{{ service_env }}_gitlab_1.state.running"
       - "gitlab_runner.{{ service_name }}{{ service_env }}_gitlab_runner_1.state.running"
+      - "gitlab_smtp.{{ service_name }}{{ service_env }}_gitlab_smtp_1.state.running"

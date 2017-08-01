@@ -1,5 +1,4 @@
 ---
-# docker-compose info
 # no dashes, underscores, etc. in service_env or service_name. alphanumeric only.
 service_env: 'dev'
 service_name: 'gitlab'
@@ -19,7 +18,7 @@ hostport_ssh: '2222'
 
 # anything that can go into the gitlab.rb config, can go here:
 gitlab_omnibus_config: |
-  external_url 'GENERATED_EXTERNAL_URL'
+  external_url 'gitlab.example.com'
   gitlab_rails['gravatar_enabled'] = true
 #   gitlab_rails['time_zone'] = 'Asia/Tokyo'
 #   gitlab_rails['gitlab_ssh_host'] = 'xxx.xxx.xxx.xxx:10022'
