@@ -77,6 +77,7 @@
             - /usr/bin/docker:/usr/bin/docker             # so our scripts can call on docker to do things if we need them to
             - /var/run/docker.sock:/var/run/docker.sock   # this will allow the runner to spawn new docker-based runners
             - "{{ hostpath_runner_config }}:/etc/gitlab-runner"
+            - /usr/share/zoneinfo:/usr/share/zoneinfo     # because gitlab doesn't include tzdata in their docker image...
         gitlab_smtp:
           image: "namshi/smtp"
           restart: always
