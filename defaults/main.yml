@@ -47,6 +47,7 @@ gitlab_omnibus_config: |
 
 # only obtainable after gitlab's first launch. this is something of a secret...
 ci_runner_registration_token: 'tbd'
+ci_runner_executor: "docker+machine"
 ci_runner_config: |
   concurrent = 20
 #  metrics_server = "PROMETHEUS_URL"
