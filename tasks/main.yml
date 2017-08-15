@@ -71,6 +71,7 @@
             CI_SERVER_URL: "http://gitlab"    # we link with the gitlab container, so that"s it"s name here
             TAG_LIST: "alpine,master"
             RUN_UNTAGGED: "true"
+            RUNNER_EXECUTOR: "docker+machine" # putting this in config.toml results in errors: https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/2198#note_24973490
             DOCKER_IMAGE: "docker:latest"     # this is a special image used by the Docker executor.
             REGISTRATION_TOKEN: "{{ ci_runner_registration_token }}"   # this comes from http://gitlab/admin/runners and
           volumes:
