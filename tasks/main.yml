@@ -67,13 +67,9 @@
             - gitlab
           environment:
             REGISTER_NON_INTERACTIVE: "true"
-            RUNNER_NAME: "gitlab-runner-master"
             CI_SERVER_URL: "http://gitlab"    # we link with the gitlab container, so that"s it"s name here
-            TAG_LIST: "alpine,master"
-            RUN_UNTAGGED: "true"
-            RUNNER_EXECUTOR: "{{ci_runner_executor}}" # putting this in config.toml results in errors: https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/2198#note_24973490
-            DOCKER_IMAGE: "docker:latest"     # this is a special image used by the Docker executor.
             REGISTRATION_TOKEN: "{{ ci_runner_registration_token }}"   # this comes from http://gitlab/admin/runners and
+            RUNNER_EXECUTOR: "{{ci_runner_executor}}" # putting this in config.toml results in errors: https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/2198#note_24973490
           volumes:
             - /usr/bin/docker:/usr/bin/docker             # so our scripts can call on docker to do things if we need them to
             - /var/run/docker.sock:/var/run/docker.sock   # this will allow the runner to spawn new docker-based runners
@@ -96,3 +92,9 @@
       - "gitlab.{{ service_name }}{{ service_env }}_gitlab_1.state.running"
       - "gitlab_runner.{{ service_name }}{{ service_env }}_gitlab_runner_1.state.running"
       - "gitlab_smtp.{{ service_name }}{{ service_env }}_gitlab_smtp_1.state.running"
+
+- name: Run ci runner registration
+  shell: |
+    docker exec {{ service_name }}{{ service_env }}_gitlab_runner_1 \
+    gitlab-runner register --non-interactive \
+    {{ ci_runner_registration_options }}

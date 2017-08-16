@@ -47,7 +47,25 @@ gitlab_omnibus_config: |
 
 # only obtainable after gitlab's first launch. this is something of a secret...
 ci_runner_registration_token: 'tbd'
-ci_runner_executor: "docker+machine"
+# gitlab runner is SUPER INCONSISTENT in the way it writes this config, unless
+# your config is simple or system is long lasting, use the cmd line opts var to
+# configure runners.
+ci_runner_registration_options: ''
+# --name "gitlab-runner-master" \
+# --run-untagged \
+# --docker-image "docker:latest"
+# --executor "docker+machine" \
+# --machine-idle-time 30 \
+# --machine-idle-nodes 1 \
+# --machine-max-builds 8 \
+# --machine-off-peak-periods '["* * 0-7,19-23 * * mon-fri *", "* * * * * sat,sun *"]' \
+# --machine-off-peak-timezone "America/Vancouver" \
+# --machine-off-peak-idle-count 0 \
+# --machine-off-peak-idle-time 5 \
+# --machine-machine-name "gitlab-ci-slave-%s" \
+# --machine-machine-driver "amazonec2" \
+# --machine-machine-options '[ "amazonec2-region=us-west-2", "amazonec2-request-spot-instance=true", "amazonec2-instance-type=m4.large", "amazonec2-spot-price=0.03" ]'
+
 ci_runner_config: |
   concurrent = 20
 #  metrics_server = "PROMETHEUS_URL"
