@@ -97,3 +97,13 @@
     docker exec {{ service_name }}{{ service_env }}_gitlab_runner_1 \
     gitlab-runner register --non-interactive \
     {{ ci_runner_registration_options }}
+
+# not using host storage for backups since S3 is configured
+- name: Set up backup cron
+  cron:
+    name: 'gitlab backups'
+    day: '{{ gitlab_backup_day }}'
+    hour: '{{ gitlab_backup_hour }}'
+    minute: '{{ gitlab_backup_minute }}'
+    job: '/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1'
+  when: gitlab_backup_manage
