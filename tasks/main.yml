@@ -105,5 +105,5 @@
     day: '{{ gitlab_backup_day }}'
     hour: '{{ gitlab_backup_hour }}'
     minute: '{{ gitlab_backup_minute }}'
-    job: '/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1'
+    job: 'docker exec {{ service_name }}{{ service_env }}_gitlab_1 /opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1'
   when: gitlab_backup_manage
