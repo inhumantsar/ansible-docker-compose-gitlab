@@ -1,5 +1,14 @@
 - hosts: localhost
+  connection: local
   become: True
+  # PYTHONPATH is set to solve an issue with docker-py
+  # https://medium.com/dronzebot/ansible-and-docker-py-path-issues-and-resolving-them-e3834d5bb79a
+  # Ansible doesn’t know where to find docker-py, that is because in some ubuntu
+  # configurations python installs docker-py in site-packages (where ansible
+  # does not expect it) and in others in dist-packages (where it does).
+  ### basically: ugh, travis.
+  environment:
+    PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
   handlers:
     - include: 'handlers/main.yml'
   vars_files:
