@@ -109,3 +109,4 @@
     {{ ci_runner_registration_options }}
   retries: 10
   delay: 90
+  ignore_errors: yes
