@@ -57,7 +57,6 @@
         gitlab:
           image: "gitlab/gitlab-ce:{{ image_tag_gitlab }}"
           restart: always
-          pull: yes
           hostname: "{{ hostname_gitlab }}"
           links:
             - gitlab_smtp
@@ -74,7 +73,6 @@
         gitlab_runner:
           image: "gitlab/gitlab-runner:{{ image_tag_runner }}"
           restart: always
-          pull: yes
           links:
             - gitlab
           environment:
