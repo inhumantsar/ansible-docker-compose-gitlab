@@ -51,6 +51,7 @@
   docker_service:
     state: "{{ service_state }}" # defaults to "present", "absent" tears down svcs
     project_name: "{{ service_name }}_{{ service_env }}"
+    pull: yes
     definition:
       version: "2"
       services:
