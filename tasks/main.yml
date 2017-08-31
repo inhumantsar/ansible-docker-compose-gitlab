@@ -51,13 +51,13 @@
   docker_service:
     state: "{{ service_state }}" # defaults to "present", "absent" tears down svcs
     project_name: "{{ service_name }}_{{ service_env }}"
+    pull: yes
     definition:
       version: "2"
       services:
         gitlab:
           image: "gitlab/gitlab-ce:{{ image_tag_gitlab }}"
           restart: always
-          pull: yes
           hostname: "{{ hostname_gitlab }}"
           links:
             - gitlab_smtp
@@ -74,7 +74,6 @@
         gitlab_runner:
           image: "gitlab/gitlab-runner:{{ image_tag_runner }}"
           restart: always
-          pull: yes
           links:
             - gitlab
           environment:
