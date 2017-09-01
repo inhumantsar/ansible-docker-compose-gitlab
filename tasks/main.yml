@@ -10,9 +10,13 @@
 # easy pre-reqs
 - name: Ensure the docker and docker-compose python libs are installed.
   pip:
-    name:
-      - docker
-      - docker-compose
+    name: docker
+    version: "{{ pypi_docker_version|default(omit) }}"
+- name: Ensure the docker-compose python libs are installed.
+  pip:
+    name: docker-compose
+    version: "{{ pypi_docker_compose_version|default(omit) }}"
+
 
 # not using host storage for backups since S3 is configured
 - name: Set up backup cron
