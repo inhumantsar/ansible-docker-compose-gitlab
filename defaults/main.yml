@@ -4,6 +4,10 @@ service_env: 'dev'
 service_name: 'gitlab'
 service_state: 'present'
 
+# library versions, set these to override latest
+# pypi_docker_version = 'x.x.x'
+pypi_docker_compose_version = '1.15.0' # bug in 1.16.0: https://github.com/docker/compose/issues/5156
+
 # container configs
 image_tag_gitlab: 'latest'
 image_tag_runner: 'alpine'
