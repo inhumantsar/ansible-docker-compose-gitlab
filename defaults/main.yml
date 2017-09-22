@@ -60,6 +60,9 @@ ci_runner_registration_token: 'tbd'
 # gitlab runner is SUPER INCONSISTENT in the way it writes this config, unless
 # your config is simple or system is long lasting, use the cmd line opts var to
 # configure runners.
+
+ci_runner_registration_envvars: ''
+
 ci_runner_registration_options: ''
 # --name "gitlab-runner-master" \
 # --run-untagged \

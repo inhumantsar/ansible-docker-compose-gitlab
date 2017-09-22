@@ -110,6 +110,7 @@
 - name: Run ci runner registration
   shell: |
     docker exec {{ service_name }}{{ service_env }}_gitlab_runner_1 \
+    {{ ci_runner_registration_envvars }} \
     gitlab-runner register --non-interactive \
     {{ ci_runner_registration_options }}
   retries: 10
